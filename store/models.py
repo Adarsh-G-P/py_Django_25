@@ -10,14 +10,32 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
 
 class Customer(models.Model):
+    MEMBERSHIP_BRONZE = 'B'
+    MEMBERSHIP_SILVER = 'S'
+    MEMBERSHIP_GOLD = 'G'
+
     MEMBERSHIP_CHOICES = [
-        ('B', 'BRONZE'),
-        ('S', 'SILVER'),
-        ('G', 'GOLD')
+        (MEMBERSHIP_BRONZE, 'BRONZE'),
+        (MEMBERSHIP_SILVER, 'SILVER'),
+        (MEMBERSHIP_GOLD, 'GOLD')
     ]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=100)
     birth_date = models.DateField(null=True)
-    membership_ = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default='B')
+    membership_ = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
+
+class Order(models.Model):
+    PAYMENT_STATUS_PENDING = 'P'
+    PAYMENT_STATUS_COMPLETE = 'C'
+    PAYMENT_STATUS_FAILED = 'F'
+    PAYMENT_STATUS_CHOICES = [
+        (PAYMENT_STATUS_PENDING, 'PENDING'),
+        (PAYMENT_STATUS_COMPLETE, 'COMPLETE'),
+        (PAYMENT_STATUS_FAILED, 'FAILED'),
+
+    ]
+    placed_at = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=1,choices=PAYMENT_STATUS_CHOICES,default=PAYMENT_STATUS_PENDING)
+       
