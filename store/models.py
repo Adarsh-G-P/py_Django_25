@@ -10,8 +10,14 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
 
 class Customer(models.Model):
+    MEMBERSHIP_CHOICES = [
+        ('B', 'BRONZE'),
+        ('S', 'SILVER'),
+        ('G', 'GOLD')
+    ]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=100)
     birth_date = models.DateField(null=True)
+    membership_ = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default='B')
