@@ -4,6 +4,7 @@ from django.db import models
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
+    feature_product = models.ForeignKey('Product',on_delete=models.SET_NULL,null=True,related_name='+')
 
 class Promotion(models.Model):
     description = models.CharField(max_length=255)
@@ -17,7 +18,7 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection,on_delete=models.PROTECT)
     promotion = models.ManyToManyField(Promotion)
-    
+
 class Customer(models.Model):
     MEMBERSHIP_BRONZE = 'B'
     MEMBERSHIP_SILVER = 'S'
@@ -33,7 +34,7 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=100)
     birth_date = models.DateField(null=True)
-    membership_ = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
+    membership_choices = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
@@ -52,7 +53,7 @@ class Order(models.Model):
 class Address(models.Model):
     street = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
-    customer = models.ForeignKey(Customer,on_delete=models.CASCACE)
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.PROTECT)
